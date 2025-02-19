@@ -217,7 +217,7 @@
     };
     class Person{
     public:
-        Person(string name, string p_name):preson_name(name), mPhone(p_name){
+        Person(string name, string p_name): preson_name(name), mPhone(p_name){
         }
     private:
         string person_name;
@@ -329,3 +329,86 @@
     ```
 
     
+
+## 模板
+
+### 函数模板
+
+- 作用：建立一个通用函数，返回值和形参可以不确定，用虚拟的类型来表示
+
+- 语法：
+	```c++
+	template<typename T>
+	// 函数模板声明
+	void Swap(T &a_, T &b_){
+	    T temp_ = a_;
+	    a_ = b;
+	    b_ = temp_;
+	}
+	
+	// 函数模板的使用(两种方式)
+	int test(){
+	    int a = 10;
+	    int b = 20;
+	    // 方法1. 自动类型推导
+	    Swap(a, b); 
+	    // 方法2：显示指定的类型 （*更好，显式指定了模板参数，可以避免一些潜在的模板推导问题）
+	    Swap<int>(a, b);
+	}
+	```
+
+​	template --- 声明要创建模板了
+
+​	typename --- 表示后面的符号是一种数据类型，可以用class代替
+
+- 注意要点
+  - 自动类型推导，必须推导出一致的类型才能使用
+  - 模板必须确定 T 的数据类型
+
+- 具体化模板
+
+  - 模板并不是万能的，自己定义的类传入后，可能无法实现正常的功能
+
+  - 使用具体化模板，可以使模板变得更加通用
+
+    ```c++
+    // 定义一个正常的模板
+    template <class T>
+    void compare(T &a, T &b){
+        if(a > b){
+            std::cout << "a big." << std::endl;
+        }else{
+            std::cout << "b big." << std::endl;
+        }
+    }
+    
+    // 具体化前面的模板
+    template <>
+    void compare(Person &p1, Person &p2){
+        if(p1.age > p2.age){
+            std::cout << "p1 big." << std::endl;
+        }else{
+            std::cout << "p2 big." << std::endl;
+        }
+    }
+    
+    // 定义了一个Person类
+    class Person{
+    public:
+        Person(string name, int age): name_(name), age_(age){}
+        
+    	string name_;
+        int age_;
+    }
+    
+    int main(){
+        Person a("小明", 20);
+        Person b("小张", 24);
+        compare(a, b);
+        //或者下面这个更好
+        compare<Person>(a, b);
+    }
+    ```
+
+    
+
