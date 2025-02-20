@@ -338,8 +338,8 @@
 
 - 语法：
 	```c++
-	template<typename T>
 	// 函数模板声明
+	template<typename T>
 	void Swap(T &a_, T &b_){
 	    T temp_ = a_;
 	    a_ = b;
@@ -412,3 +412,51 @@
 
     
 
+### 类模板
+
+- 语法
+
+  ```c++
+  // 定义一个类模板
+  template <class NameType, class AgeType>
+  class Person
+  {
+  public:
+      Perosn(NameType name, AgeType age){
+          name_ = name;
+          age_ = age;
+      }
+      NameType name_;
+      AgeType age_;
+  }
+  // 用类模板创建一个类
+  void test（）{
+      Person<string int> p1("小明"， 18);
+  }
+  ```
+
+- 与函数模板的区别
+
+  - 类模板没有自动类型推导
+  - 类模板在模板的参数列表中可以有**默认参数**
+
+  ```c++
+  template <class NameType, class AgeType = int>  // 设置默认参数
+  class Person
+  {
+  public:
+      Perosn(NameType name, AgeType age){
+          name_ = name;
+          age_ = age;
+      }
+      NameType name_;
+      AgeType age_;
+  }
+  void test（）{
+      Person<string> p1("小明"， 18);  // 设置了默认参数，可以不传入该类型
+  }
+  ```
+
+- 类模板的成员函数并不是一开始就创建的，而是在调用的时候才创建的
+
+- 
