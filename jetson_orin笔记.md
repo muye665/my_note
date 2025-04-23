@@ -4,7 +4,6 @@ jetson orin 默认的静态ip为`192.168.55.1`，如果要使用网线连接，�
 
 注：要用usb数据线连，本地的ip为`192.168.55.2`，jetson ip为`192.168.55.1`，所以设置 ROS_IP='192.168.55.2'，ROS_MASTER_UIR='192.168.55.1:11311'
 
-<<<<<<< HEAD
 
 
 jetson orin nano 科学上网:
@@ -12,5 +11,6 @@ jetson orin nano 科学上网:
 下载：Qv2ray
 按 https://igghelper.com/helper/?p=257 里配置
 电脑的`设置->网络代理`要改成手动，端口和本地ip是`Qv2ray -> 首选项->入站设置`里看。
-=======
->>>>>>> 287e7ce86e6c069500b1c8692e058f33749e10a6
+
+
+
