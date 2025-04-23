@@ -93,6 +93,11 @@
 
   防止函数中的形参改变实参
 
+- #### 左值引用与右值引用不同之处
+
+  1. 左值引用引用左值，**左值可以修改**；右值引用引用右值，**右值不可以修改**
+  2. 左值是由用户自定义变量组成，右值一般为编译器运行时开辟临时变量。
+
 ## 函数进阶
 
 - 函数的默认参数
@@ -399,7 +404,7 @@
         
     	string name_;
         int age_;
-    }
+    };
     
     int main(){
         Person a("小明", 20);
@@ -428,7 +433,7 @@
       }
       NameType name_;
       AgeType age_;
-  }
+  };
   // 用类模板创建一个类
   void test（）{
       Person<string int> p1("小明"， 18);
@@ -451,7 +456,7 @@
       }
       NameType name_;
       AgeType age_;
-  }
+  };
   void test（）{
       Person<string> p1("小明"， 18);  // 设置了默认参数，可以不传入该类型
   }
@@ -459,4 +464,90 @@
 
 - 类模板的成员函数并不是一开始就创建的，而是在调用的时候才创建的
 
-- 
+- 类模板对象作为函数的参数
+
+  - 方法1：指定传入类型（最常用）
+  - 方法2：参数模板化
+  - 方法3：整个类模板化
+
+  ```c++
+  template<class T1, class T2>
+  class Person{
+  public:
+      Person(T1 name, T2 age){
+          name_ = name;
+          age_ = age;
+      }
+      T1 name_;
+      T2 age_;
+      void print_msg(){
+          std::cout << "name:" << this->name_ << "age:" << this->age_ << std::endl;
+      }
+  };
+  
+  // 1. 指定传入类型
+  void test01(Person<string, int>&p1){
+      p1.print_msg();
+  }
+  
+  // 2.参数模板化
+  template<class T1, class T2>
+  void test02(Person<T1, T2>&p2){
+      p2.print_msg();
+  }
+  
+  // 3.整个类模板化
+  template<class T>
+  void test03(T &p3){
+      p3.print_msg();
+  }
+      
+  void test00(){
+      Person<string, int>p0("小明", 18);  // 实例化类模板对象
+      test01(p0);  // 实例化对象传入函数
+      test02(p0);
+      test03(p0);
+  }
+  
+  ```
+
+  
+
+- 类模板与继承
+
+  - 继承父类时，如果子类是类模板，不用指定父类的 T 的类型
+
+  - 继承父类时，如果子类不是类模板，需要指定父类的 T 的类型
+
+    ```c++
+    template<class T>
+    class Base{
+    public:
+        T a_;
+    };
+    
+    // 子类是类模板，不用指定父类的 T 的类型
+    template<class T1, class T2>
+    class demo02: public Base<T2>{
+    public:
+        T1 b_;
+    };
+    
+    // 子类不是类模板，需要指定父类的 T 的类型
+    class demo01: public Base<int>{
+    };
+    
+    void test01(){
+        demo01 S1;
+        demo02<int, char> S2; // 此时 S2 的父类模板的 T 为 char， 子类模板的 T1 为 int
+    }
+    ```
+
+    
+
+- 类模板成员函数在类外实现
+
+  ```c++
+  ```
+
+  
