@@ -25,23 +25,26 @@
 ![2d7b530ac70efaa303c7175e4c5328cd](./picture/2d7b530ac70efaa303c7175e4c5328cd.png)
 
 对于某一时刻内一个窗口的某一个区域不在同方向的像素值的梯度变化，，有公式：
+
 $$
 E(u, v) = \sum_{x,y}w(x, y)[I(x+u, y+v)-I(x, y)]^2
 \tag1
 $$
- $$ I(x, y) $$ 是对应坐标的像素值
+
+$$ I(x, y) $$ 是对应坐标的像素值
 
 $$w(x, y)$$ 是对应坐标的权重
-
-
 
 对于 $$I(x+u, y+v)$$ ，进行二元函数泰勒的一阶展开，
 
 得 
+
 $$
 I(x+u, y+v)\approx I(x, y) + uI_x(x, y)+vI_y(x, y)
 $$
+
 将上式带入 $(1)$ 后得：
+
 $$
 E(u, v) = \sum_{x,y}w(x, y)[uI_x(x, y)+vI_y(x, y)]^2\\
 $$
@@ -61,9 +64,8 @@ E(u, v) = \sum_{x,y}w(x, y)
  \end{bmatrix}
 $$
 
-
-
 令：
+
 $$
 M = \sum_{x,y}w(x, y)
 \begin{bmatrix}
@@ -71,7 +73,9 @@ M = \sum_{x,y}w(x, y)
  I_xI_y &  I_y^2\\
  \end{bmatrix}
 $$
-$M$带入得 $E(u, v)$ ，化简得：
+
+$M$ 带入得 $E(u, v)$ ，化简得：
+
 $$
 E(u, v) = 
 \begin{bmatrix}
@@ -84,7 +88,9 @@ M
  \end{bmatrix}
  \tag2
 $$
+
 $M$ 是一个实对称矩阵，即存在正交矩阵 $P$ ，使得
+
 $$
 P^{-1}MP =
  \begin{bmatrix}
@@ -92,9 +98,11 @@ P^{-1}MP =
  0 & \lambda_2
  \end{bmatrix}
 $$
+
 **$\lambda_1$ 、$\lambda_2$ 是 $M$ 的特征值 **
 
 $P$ 是正交矩阵，有 $ P^T = P^{-1} $ ，有
+
 $$
 M = P 
 \begin{bmatrix}
@@ -110,8 +118,8 @@ M = P
  P^T
 $$
 
-
 $M$带入得 $(2)$ 得：
+
 $$
 E(u, v) =
 \begin{bmatrix}
@@ -143,7 +151,9 @@ E(u, v) =
  \end{bmatrix}
  P)^T
 $$
+
 令
+
 $$
 \begin{bmatrix}
  u & v\\
@@ -154,7 +164,9 @@ $$
  u' & v'\\
  \end{bmatrix}
 $$
+
 得：
+
 $$
 E(u, v) = (u')^2 \lambda_1 + (v')^2 \lambda_2 
 =
@@ -163,10 +175,13 @@ E(u, v) = (u')^2 \lambda_1 + (v')^2 \lambda_2
 \frac{(v')^2 }{(\frac{1}{\lambda_2^{1/2}})^2}
 \tag3
 $$
+
 这样的格式和标准椭圆方程一致，椭圆方程：
+
 $$
 \frac{x^2}{(\frac{a}{\sigma})^2}+\frac{y^2}{(\frac{b}{\sigma})^2}= \sigma^2
 $$
+
 根据 $(3)$ 式，所以 $\lambda_1$ 和 $\lambda_2$ 都要比较大时，像素的梯度变化才比较大，如下图：
 
 ![7a4483583a3ac9dd787fa88ef13942ac](./picture/7a4483583a3ac9dd787fa88ef13942ac.png)
@@ -176,14 +191,18 @@ $$
 前面已经知道如何计算某一个像素点的像素大小的变化梯度了，现在计算 $\lambda_1$ 、$\lambda_2$ 就可以得到梯度，但是如果按照前面的流程计算 $M$ 的特征值的话，太过复杂，有没有比较好的办法不用求它们的值，通过矩阵的一些性质就能估算出$\lambda_1$ 、$\lambda_2$ 大小呢？
 
 因为 $M$ 是对称矩阵，所以其矩阵的 det（行列式）和 trace（迹）有以下关系：
+
 $$
 det M = \lambda_1\lambda_2 \\
 trace M = \lambda_1+\lambda_2
 $$
+
 因为矩阵的迹（矩阵的主对角线所有元素之和）和矩阵的行列式都比较好算，所以用两者来估算出$\lambda_1$ 、$\lambda_2$ 的大小，所以令 
+
 $$
 R = detM-k(traceM)^2
 $$
+
 $R$ 值就是最后是否为角点的判断值，正数代表是角点，
 
  $k$ 是一个经验值，自己取的，取值一般在 0.04 ~ 0.06，$k$ 越大，角点检测灵敏度越低，角点数量越少
@@ -195,9 +214,11 @@ $k = 0.04$ 时的图像：
 ### Shi-Tomasi 角点检测
 
 Shi-Tomasi 角点检测改进了 Harris 角点检测的响应函数 R，令：
+
 $$
 R(x,y)=min(λ1,λ2)
 $$
+
 这样就不用调参 $k$ ，只需要设置一个阈值 $\tau$ ，筛选出满足 $ min(λ1,λ2) >\tau$ 即可，这样既减少了参数，又让结果更具有物理可解释性。
 
 ## Pyramidal Lucas-Kanade（金字塔 LK）
@@ -215,26 +236,32 @@ $$
 ### 基本约束方程
 
 根据假设一得：
+
 $$
 I(x, y, t)= I(x + dx, y + dy, t + dt)
 $$
-右式进行二阶泰勒展开得：
 
+右式进行二阶泰勒展开得：
 
 $$
 I(x, y, t)\approx I(x, y, t) 
 + \frac{\delta I}{\delta x}dx
 + \frac{\delta I}{\delta y}dy
-+ \frac{\delta I}{\delta t}dt
++ \frac{\delta I}{\delta
++  t}dt
+
 $$
 化简式子：
+
 $$
 \frac{\delta I}{\delta x}dx
 + \frac{\delta I}{\delta y}dy
 + \frac{\delta I}{\delta t}dt
 = 0
 $$
+
 令两边同除以 $dt$ ，有
+
 $$
 \frac{\delta I}{\delta x}\frac{dx}{dt}
 + \frac{\delta I}{\delta y}\frac{dy}{dt}
@@ -259,17 +286,22 @@ $$
 - 基本思想：**在某个待跟踪像素 $p$ 周围，选取一个 $N×N$ 的邻域区域 （局部窗口），包含该点及其邻近的像素集合  $\{q_i\}_{i=1}^n$ ，用于汇集多条光流约束方程，构成一个过定系统，通过最小二乘解得到 $(u,v)$ ** 
 
 汇集多条光流约束方程，将 $(1)$ 写成 $N×N = n$ 个式子：
+
 $$
 I_x(q_i) u + I_y(q_i) v+I_t(q_i)
 = 0 ,   {i=1,2...n}
 $$
+
 **最小二乘解**：通过最小化误差平方和，解出唯一的速度矢量 $(u,v)$ 
+
 $$
 \min_{u,v} \sum_{i = 1}^{n}
 (I_x(q_i) u + I_y(q_i) v+I_t(q_i))^2
 \tag2
 $$
+
 令
+
 $$
 A = 
 \begin{bmatrix}
@@ -293,30 +325,38 @@ v\\
  I_t(q_n) \\
  \end{bmatrix}
 $$
+
 要最小化$(2)$ ，等价于求解有关 $v$ 的函数（注：此时的 $v$ 是向量），使得：
+
 $$
 \min_v∥Av−b∥^2
 $$
+
 其中：
+
 $$
 ∥Av−b∥^2 = (Av-b)^T(Av-b) = (Av)^TAv - 2(Av)^Tb + b^Tb
 $$
 
-
 该式子是关于 $Av$ 的二元一次方程，要使这个方程最小，只要让
+
 $$
 Av = b
 $$
+
 即满足：
+
 $$
 A^TAv = A^Tb
 \tag3
 $$
+
 就可以让 $∥Av−b∥^2$ 最小
 
 **加权窗口**：使用高斯权重 $ w_i=\exp\bigl(-\tfrac{\|q_i-p\|^2}{2\sigma^2})$ ，对离中心点越远的像素赋予更小的权重，构造加权最小二乘：
 
 令
+
 $$
 W = 
   \begin{bmatrix}
@@ -326,12 +366,13 @@ W =
  0 & 0 & ... & w_n \\
  \end{bmatrix}
 $$
+
 带入$(3)$ ，化简得：
+
 $$
 (A^TWA)v = A^TWb
 \tag4
 $$
-
 
 可以看到 $A^{T}A$ 秩的个数为2，当其满秩时，矩阵可逆，也即 $A^{T}A$ 有两个较大的特征向量时。图像中纹理至少有两个方向的区域，这个条件不难满足，联想到 Harris角点检测算法， 当跟踪窗口的中心在图像的角点区域时，![A^{T}A](https://i-blog.csdnimg.cn/blog_migrate/9c89c8773a7f352580a64df979db7280.gif)的特性最好。
 
@@ -364,9 +405,11 @@ LK算法的约束条件即：小速度，亮度不变以及区域一致性都是
 #### (1) 最终窗口内的误差（residual error）太大
 
 在每一层 LK 解完 $ A^TAv = A^Tb $ 后，都会算出一个局部重投影误差（也叫 residual error）：
+
 $$
 ei= \sqrt{ \sum_{\text{window}} \big( I_1(x,y) - I_2(x+dx,y+dy) \big)^2 }
 $$
+
 意思是：
 
 - 把前一帧的局部窗口拿过来，
