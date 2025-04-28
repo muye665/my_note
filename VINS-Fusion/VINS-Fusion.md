@@ -1,103 +1,102 @@
 # CLAHE：限制对比度的自适应直方图均衡化
 
-一个图像增强的算法，先咕一会，跳过这一部分
+一个图像增强的算法，先咕一会，跳过这一部分。
 
-有一篇写的挺好的博客可以参考：https://blog.csdn.net/qq_36926037/article/details/108679704
+有一篇写的挺好的博客可以参考：[https://blog.csdn.net/qq_36926037/article/details/108679704](https://blog.csdn.net/qq_36926037/article/details/108679704)
 
 # Kanade–Lucas–Tomasi（KLT稀疏光流算法）
 
 **核心思想**：在金字塔图像（多分辨率）上，对每个特征点构建邻域窗口，假设该窗口内所有像素具有相同的位移，利用泰勒一阶展开并通过最小二乘法求解位移。
 
-**稀疏光流和稠密光流之间的区别：**较于密集光流（如 Farneback、TV-L1），KLT 只跟踪稀疏特征点，计算开销更小，便于实时 SLAM。
+**稀疏光流和稠密光流之间的区别：** 相较于密集光流（如 Farneback、TV-L1），KLT 只跟踪稀疏特征点，计算开销更小，便于实时 SLAM。
 
 大致流程：
 
-![微信图片_20250426225617_75](./picture/微信图片_20250426225617_75.jpg)
+![流程图](./picture/微信图片_20250426225617_75.jpg)
 
 ## Shi-tomasi（角点检测）
 
-在介绍 Shi-tomasi 点角检测之前，先介绍 Harris 角点检测， Shi-tomasi 基于 Harris 只做了很小的改变
+在介绍 Shi-tomasi 角点检测之前，先介绍 Harris 角点检测，Shi-tomasi 是在 Harris 基础上做了小的改进。
 
 ### Harris 角点检测
 
 点角的特征：
 
-![2d7b530ac70efaa303c7175e4c5328cd](./picture/2d7b530ac70efaa303c7175e4c5328cd.png)
+![Harris 特征图](./picture/2d7b530ac70efaa303c7175e4c5328cd.png)
 
-对于某一时刻内一个窗口的某一个区域不在同方向的像素值的梯度变化，，有公式：
+对于某一时刻内一个窗口区域，不同方向像素值的梯度变化，可以用公式表示为：
 
-$$
-E(u, v) = \sum_{x,y}w(x, y)[I(x+u, y+v)-I(x, y)]^2
-\tag1
-$$
+```math
+E(u, v) = \sum_{x,y} w(x, y) [I(x+u, y+v) - I(x, y)]^2 \tag{1}
+```
 
-$$I(x, y)$$ 是对应坐标的像素值
+其中：
 
-$$w(x, y)$$ 是对应坐标的权重
+- $I(x, y)$ 是对应坐标的像素值；
+- $w(x, y)$ 是对应坐标的权重。
 
-对于 $$I(x+u, y+v)$$ ，进行二元函数泰勒的一阶展开，
+对于 $I(x+u, y+v)$，进行二元函数泰勒一阶展开，得：
 
-得 
+```math
+I(x+u, y+v) \approx I(x, y) + uI_x(x, y) + vI_y(x, y)
+```
 
-$$
-I(x+u, y+v)\approx I(x, y) + uI_x(x, y)+vI_y(x, y)
-$$
+将上式代入公式 (1) 后得：
 
-将上式带入 $(1)$ 后得：
+```math
+E(u, v) = \sum_{x,y} w(x, y) [uI_x(x, y) + vI_y(x, y)]^2
+```
 
-$$
-E(u, v) = \sum_{x,y}w(x, y)[uI_x(x, y)+vI_y(x, y)]^2\\
-$$
+展开后可以写成矩阵形式：
 
-$$
-E(u, v) = \sum_{x,y}w(x, y)
+```math
+E(u, v) = \sum_{x,y} w(x, y)
 \begin{bmatrix}
- u & v\\
- \end{bmatrix}
+u & v
+\end{bmatrix}
 \begin{bmatrix}
- I_x^2  &  I_xI_y\\
- I_xI_y &  I_y^2\\
- \end{bmatrix}
- \begin{bmatrix}
- u\\
- v\\
- \end{bmatrix}
-$$
+I_x^2 & I_x I_y \\
+I_x I_y & I_y^2
+\end{bmatrix}
+\begin{bmatrix}
+u\\
+v
+\end{bmatrix}
+```
 
 令：
 
-$$
-M = \sum_{x,y}w(x, y)
+```math
+M = \sum_{x,y} w(x, y)
 \begin{bmatrix}
- I_x^2  &  I_xI_y\\
- I_xI_y &  I_y^2\\
- \end{bmatrix}
-$$
+I_x^2 & I_x I_y \\
+I_x I_y & I_y^2
+\end{bmatrix}
+```
 
-$M$ 带入得 $E(u, v)$ ，化简得：
+则 $E(u,v)$ 可简写为：
 
-$$
-E(u, v) = 
+```math
+E(u, v) =
 \begin{bmatrix}
- u & v\\
- \end{bmatrix}
+\nu & v
+\end{bmatrix}
 M
- \begin{bmatrix}
- u\\
- v\\
- \end{bmatrix}
- \tag2
-$$
+\begin{bmatrix}
+\nu\\
+v
+\end{bmatrix} \tag{2}
+```
 
-$M$ 是一个实对称矩阵，即存在正交矩阵 $P$ ，使得
+其中，$M$ 是一个实对称矩阵，即存在正交矩阵 $P$，使得：
 
-$$
-P^{-1}MP =
- \begin{bmatrix}
- \lambda_1&0\\
- 0 & \lambda_2
- \end{bmatrix}
-$$
+```math
+P^{-1} M P =
+\begin{bmatrix}
+\lambda_1 & 0 \\
+0 & \lambda_2
+\end{bmatrix}
+```
 
 **$\lambda_1$ 、$\lambda_2$ 是 $M$ 的特征值 **
 
@@ -134,8 +133,7 @@ E(u, v) =
 \begin{bmatrix}
  u & v\\
  \end{bmatrix}^T \\
- E(u, v)
- =
+ E(u, v) =
  \begin{bmatrix}
  u & v\\
  \end{bmatrix}
@@ -157,8 +155,7 @@ $$
 \begin{bmatrix}
  u & v\\
  \end{bmatrix}
- P
-  = 
+ P = 
 \begin{bmatrix}
  u' & v'\\
  \end{bmatrix}
@@ -167,8 +164,7 @@ $$
 得：
 
 $$
-E(u, v) = (u')^2 \lambda_1 + (v')^2 \lambda_2 
-=
+E(u, v) = (u')^2 \lambda_1 + (v')^2 \lambda_2 =
 \frac{(u')^2 }{(\frac{1}{\lambda_1^{1/2}})^2} 
 +
 \frac{(v')^2 }{(\frac{1}{\lambda_2^{1/2}})^2}
