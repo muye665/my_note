@@ -118,7 +118,7 @@ M = P
  P^T
 $$
 
-$M$带入得 $(2)$ 得：
+$M$ 带入得 $(2)$ 得：
 
 $$
 E(u, v) =
@@ -134,7 +134,6 @@ E(u, v) =
 \begin{bmatrix}
  u & v\\
  \end{bmatrix}^T \\
- 
  E(u, v)
  =
  \begin{bmatrix}
