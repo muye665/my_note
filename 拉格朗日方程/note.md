@@ -1,0 +1,321 @@
+# 前置知识：
+
+## 泛函分析
+
+- **泛函（Functional）**：你可以把它看作是一个**“函数的函数”**。它接受一个函数作为输入，然后输出一个数值。
+  - 例如，定积分 $∫_a^bf(x)dx$ 就是一个泛函。它接受一个函数 $f(x)$ 作为输入，然后输出一个**数值**（即定积分的值）。
+- **算子（Operator）**：它也是一种变换，但它接受一个函数作为输入，然后输出**另一个函数**。
+  - 例如，求导运算 $\frac{d}{dx}$ 就是一个算子。它接受一个函数 $f(x)$，然后输出它的导函数 $f^′(x)$。
+
+
+
+# 哈密顿原理 推导出 拉格朗日方程（变分法）
+
+旨在寻找一个函数$y(x)$，使得**泛函**$J[y]$**达到极值**（最大值或最小值）。泛函数通常具有以下形式：
+$$
+J[y] = ∫_{x_1}^{x_2}L(x, y(x), y'(x))dx
+\tag{1}
+$$
+
+- $y(x), \,y'(x)$ 都是关于 $x$ 的函数
+
+- $L$ 是拉格朗日量，它是一个函数
+
+- $J[y]$ 是关于函数 $y(x)$ 的泛函，称作**作用量** 
+
+
+
+为了让泛函 $J$ 达到极值，我们假设当 $J[y]$ 最小时，对应的 $y(x)$ 为 $y_0(x)$ 
+
+我们给 $y_0$ 加小一个扰动 $\epsilon \cdot \eta(x)$ ，变成一个**邻近**的函数
+$$
+y(x, \epsilon) = y_0(x)+\epsilon \cdot \eta(x)
+\tag{2}
+$$
+
+
+- $\epsilon$ 是一个可变且很小的参数
+
+- $\eta(x)$ 是任意的函数（只要满足端点为零的条件：$\eta(x_1) = \eta(x_2) = 0$  ）
+
+将 (2) 带入 (1) 得：
+$$
+J = ∫_{x_1}^{x_2}L(x,\, y_0+\epsilon\eta,\, y_0'+\epsilon  \eta)dx
+$$
+根据**哈密顿最小作用量原理**的定义，$J[y]$ 关于 $\epsilon$ 的导数在 $\epsilon = 0$ 时等于0 ：
+$$
+\frac{dJ}{d\epsilon}|_{\epsilon = 0} = 0
+$$
+我们来分析这个 $\frac{dJ}{d\epsilon}$ ，我们让 (1) 两侧对  $\epsilon$ 求导：
+$$
+\frac{dJ}{d\epsilon} = ∫_{x_1}^{x_2}\frac{\partial L}{\partial \epsilon}dx
+\tag{3}
+$$
+我们进一步分析 $\frac{\partial L}{\partial \epsilon}$ 这一项：
+$$
+\frac{\partial L}{\partial \epsilon} = \frac{\partial L(x, y, y')}{\partial \epsilon} 
+= \frac{\partial L}{\partial y} \cdot  \frac{\partial y}{\partial \epsilon} 
++ \frac{\partial L}{\partial y'} \cdot  \frac{\partial y'}{\partial \epsilon}
+\tag{4}
+$$
+
+- $x$ 不是关于 $\epsilon$ 的函数，所以 $\frac{\partial x}{\partial \epsilon} = 0$ 
+- 此处的 $y'$ 是 $y$ 对 $x$ 的导数（不是 $y'$对 $\epsilon$ 的导数）
+
+由 (2) 得：
+$$
+\frac{\partial y}{\partial \epsilon} = \eta \,\,\,,\frac{\partial y'}{\partial \epsilon} = \eta'
+$$
+将上式带入 (4)：
+$$
+\frac{\partial L}{\partial \epsilon} 
+= \frac{\partial L}{\partial y} \cdot  \eta
++ \frac{\partial L}{\partial y'} \cdot  \eta'
+$$
+将上式带入(3)：
+$$
+\frac{dJ}{d\epsilon} = ∫_{x_1}^{x_2} (
+\frac{\partial L}{\partial y} \cdot  \eta
++ \frac{\partial L}{\partial y'} \cdot  \eta'
+)
+dx
+\tag{5}
+$$
+对 $∫_{x_1}^{x_2} (\frac{\partial L}{\partial y'} \cdot  \eta') dx$ 这一项，我们使用头部积分法进行转换：
+$$
+∫_{x_1}^{x_2} (\frac{\partial L}{\partial y'} \cdot  \eta') dx 
+= [\frac{\partial L}{\partial y'} \cdot  \eta]|^{x_2}_{x_1}
+- ∫_{x_1}^{x_2} (\frac{d}{dx}\frac{\partial L}{\partial y'} \cdot  \eta) dx
+$$
+
+- 头部积分法：$∫(u \cdot v')dx = u \cdot v - ∫(u' \cdot v)dx$
+
+对于 $[\frac{\partial L}{\partial y'} \cdot  \eta]|^{x_2}_{x_1}$ 这一项，因为 $\eta(x_1) = \eta(x_2) = 0$  ，所以 $[\frac{\partial L}{\partial y'} \cdot  \eta]|^{x_2}_{x_1} = 0$  
+
+将上式带入 (5) 得：
+$$
+\frac{dJ}{d\epsilon} = 
+∫_{x_1}^{x_2} (
+\frac{\partial L}{\partial y} \cdot  \eta
+-\frac{d}{dx}\frac{\partial L}{\partial y'} \cdot  \eta
+)
+dx
+=
+∫_{x_1}^{x_2} (
+\eta \cdot (
+\frac{\partial L}{\partial y} 
+- \frac{d}{dx}\frac{\partial L}{\partial y'})
+)
+dx
+$$
+因为 $\frac{dJ}{d\epsilon} |_{\epsilon = 0} = 0$ ，所以
+$$
+\eta \cdot (
+\frac{\partial L}{\partial y} 
+- \frac{d}{dx}\frac{\partial L}{\partial y'})
+= 0
+$$
+因为 $η(x)$ 是任意的函数（只要满足端点为零的条件），根据**变分法的基本引理**，如果一个连续函数 $f(x)$ 满足 $∫_a^bf(x)η(x)dx=0$ 对于任意 $η(x)$ 成立，那么 $f(x)$ 必须恒等于零。
+
+所以，我们得到最终的**欧拉—拉格朗日方程**：
+$$
+\boxed{
+\frac{\partial L}{\partial y}  
+- \frac{d}{dx}\frac{\partial L}{\partial y'}
+= 0
+}
+$$
+**欧拉—拉格朗日方程是一个二阶常微分方程。通过解这个方程，我们就能找到使得泛函达到极值的函数 y(x)。**
+
+
+
+# 从 达朗贝尔原理 到 拉格朗日方程
+
+## 达朗贝尔原理
+
+对于一个 $N$ 个质点组成的系统，根据牛顿第二定律，有
+$$
+F_i + N_i = m_i a_i
+$$
+
+- $F$ 为外力
+- $N$ 为约束力
+
+变换得
+$$
+F_i + N_i - m_i a_i = 0
+$$
+我们引入一个虚功的概念 $\delta W$ ，而 $\delta r_i$ 为虚位移，是一段很小的、满足约束的位移。
+$$
+\delta W = \sum_{i = 1}^{N} (F_i + N_i - m_i a_i)\,\delta r_i = 0
+$$
+
+-  $\delta$ 代表泛函的变分，类似于函数的微分 $d$ 
+
+约束力 $N$ 的方向和虚位移 $\delta r_i$ 的方向垂直，做功为0，于是有
+$$
+\boxed{
+\sum_{i = 1}^{N} (F_i - m_i a_i)\,\delta r_i = 0
+}
+$$
+该式就是**达朗贝尔原理 **
+
+## 拉格朗日方程
+
+接下来下面从达朗贝尔方程推导到拉格朗日方程
+
+对于达朗贝尔方程中的 $\delta r$ 指的是欧式距离，为了让其更有通用性，我们换成 $\delta p_j$，$\delta p_i$ 是指广义坐标，如 $x, y, z, \theta , \phi, \psi$ 等一系列坐标，并且有等式：
+$$
+\delta r_i = \sum_{j = 1}^M \frac{\partial r_i}{\partial p_j} \cdot \delta p_j
+$$
+
+- 可以将 $\frac{\partial r_i}{\partial p_j}$ 理解为一个单位向量，类似于 $\frac{\partial l}{\partial x}$ 
+
+将上式带入达朗贝尔方程中
+$$
+\sum_{i = 1}^{N} 
+[(F_i - m_i a_i) \,
+\sum_{j = 1}^M (\frac{\partial r_i}{\partial p_j} \cdot \delta p_j)] 
+= 0
+$$
+变换一下顺序
+$$
+\sum_{j = 1}^M 
+  [\sum_{i=1}^N
+    (F_i\cdot\frac{\partial r_i}{\partial p_j} 
+    - m_i a_i \frac{\partial r_i}{\partial p_j}
+    )
+  ]
+\delta q_j
+= 0
+\tag{6}
+$$
+由于广义坐标是相互独立（完整约束）的，其虚位移不受任何约束，故具有任意性。那么虚位移的系数为零就是上式恒成立的等价条件：
+$$
+\sum_{i=1}^N
+(F_i\cdot\frac{\partial r_i}{\partial p_j} 
+- m_i a_i \frac{\partial r_i}{\partial p_j}
+) = 0
+\tag{6}
+$$
+
+- 为了简化表达，后面的 $\mathbf{r_{i, q_j}}$ 就是 $\frac{\partial r_i}{\partial q_j}$ ，  $\mathbf{r_{i, t}}$ 就是  $\frac{\partial r_i}{\partial t}$  
+
+
+> ### 简化式子 (6)
+>
+> 对于第一项，我们定义一个**广义力 $Q_j$ ** 
+> $$
+> \boxed{
+> Q_j \equiv \sum_i^N F_i\cdot \mathbf{r_{i, q_j}}
+> }
+> \tag{7}
+> $$
+> 我们现在化简 (6) 的第二项了，目标是将其变换成 $T$ 表示，已知
+> $$
+> T = \frac12\sum_i m_i\mathbf v_i\cdot\mathbf v_i\\
+> r_i = r_i(q_1...q_m, t) \\
+> \mathbf v_i = \dot{r_i} = \frac{d r_i}{dt}
+> = \sum_j \mathbf{r_{i, q_j}}\cdot \dot{q_j} + \mathbf{r_{i, t}};   \\
+> $$
+>
+> ## 倒推
+>
+>  ### 1. 计算 $\frac{\partial T}{\partial \dot{q}} $ 
+>
+> $$
+> \frac{\partial T}{\partial \dot{q}}  = \sum _i m_i \mathbf v_i \mathbf{r_{i, q_j}}
+> \tag{1'}
+> $$
+>
+> ### 2. 计算 $\frac{d}{dt} \frac{\partial T}{\partial \dot{q}}$ 
+>
+> $$
+> \begin{aligned}
+> \frac{d}{dt} \frac{\partial T}{\partial \dot{q}}  
+>   &= \sum_i m_i(\mathbf v_i \frac{d}{dt} \mathbf{r_{i, q_j}} +\mathbf a_i \, \mathbf{r_{i, q_j}})  \\
+> \end{aligned}
+> $$
+>
+> 把加速度 $a_i$ 换到前面来
+> $$
+> \sum_i m_i \mathbf a_i  \mathbf{r_{i, q_j}} 
+> = \frac{d}{dt} \frac{\partial T}{\partial \dot{q}}   
+> - \sum_i m_i \mathbf v_i \frac{d}{dt} \mathbf{r_{i, q_j}}
+> \tag{2'}
+> $$
+>
+> ### 3. 计算 $\frac{\partial T}{\partial q} $ 
+>
+> 把$T=\tfrac12\sum_i m_i\mathbf v_i\cdot\mathbf v_i$视作 $q$ 的函数（通过 $\mathbf v_i(q,\dot q,t)$ ）：
+> $$
+> \frac{\partial T}{\partial q}  = \sum _i m_i \mathbf v_i \frac{\partial \mathbf v}{\partial q_j}
+> $$
+> 其中 $\mathbf v_i = \dot{r_i} = \sum_{j} \mathbf{r_{i, q_j}}\cdot \dot{q_j} + \mathbf{r_{i, t}}$ ，所以
+> $$
+> \frac{\partial \mathbf v}{\partial q_j} 
+> = \sum_k ( \frac{\partial \mathbf{r_{i, q_k}} }{\partial q_j}\cdot \dot{q_j}  + \frac{\partial \mathbf{r_{i, t}}}{\partial q_j})
+> \tag{3'}
+> $$
+> 
+>
+> 如果对 $\mathbf r_{i, t}$ 做全时间的导数
+> $$
+> \frac{d\mathbf r_{i, t}}{dt} 
+> = \sum_{k} (
+> \frac{\partial \mathbf{r_{i, t}}}{\partial q_k}\cdot \dot{q_j} 
+> + \frac{\partial \mathbf{r_{i, t}}}{\partial t}
+> )
+> \tag{4'}
+> $$
+> 注意到混合偏导的对称性：
+> $$
+> \frac{\partial \mathbf{r_{i, t}}}{\partial q_j} = \frac{\partial \mathbf{r_{i, q_j}}}{\partial t} ;\,\,\,
+> \frac{\partial \mathbf{r_{i, q_j}}}{\partial q_k} = \frac{\partial \mathbf{r_{i, q_k}}}{\partial q_i}
+> $$
+> 根据上式，可得 (3') (4') 相等
+> $$
+> \frac{\partial \mathbf v}{\partial q_j} = 
+> \frac{d\mathbf r_{i, t}}{dt}
+> $$
+> 于是有
+> $$
+> \frac{\partial T}{\partial q}  
+> = \sum _i m_i \mathbf v_i 
+> \frac{d\mathbf r_{i, t}}{dt}
+> \tag{5'}
+> $$
+> 将 (5') 带入 (2') 可得：
+> $$
+> \boxed{
+> \sum_i^N m_i \mathbf a_i  \mathbf{r_{i, q_j}} 
+> = \frac{d}{dt} \frac{\partial T}{\partial \dot{q}}   
+> - \frac{\partial T}{\partial q}
+> }
+> \tag{8}
+> $$
+
+将 (7) (8)  带入 (6)，最终得
+$$
+\boxed{
+\frac{d}{dt} \frac{\partial T}{\partial \dot{q_j}}   
+- \frac{\partial T}{\partial q_j}
+= Q_j 
+\, ,\,\,\,j = 1, 2, ...m
+}
+$$
+若外力为保守力且由势能 $V(q, t)$ 给出（$Q_j = \frac{\partial V}{\partial \dot{q_j}} $），则
+$$
+\frac{d}{dt} \frac{\partial (T - V)}{\partial \dot{q_j}}   
+- \frac{\partial (T - V)}{\partial q_j}
+= 0
+$$
+即就是**欧拉—拉格朗日方程**，也就是拉格朗日 $L=T−V$ 的方程。
+
+- 结论：**达朗贝尔原理在加上广义坐标表示并引入动能 T 后，直接导出拉格朗日方程。**
+   换句话说，拉格朗日方程是达朗贝尔原理在广义坐标下的等价形式（在理想约束下）。
+
+**核心前提**：系统的所有广义坐标 ${q_k}$ 都是**相互独立**的。
+
+
+

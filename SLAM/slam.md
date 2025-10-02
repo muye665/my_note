@@ -1,3 +1,7 @@
+> [!NOTE]
+>
+> 本人的 slam 是看的 slam14 讲学的，此处的笔记不是slam的，而是slam14讲里的前置基础知识的
+
 # Camera
 
 ### 小孔成像
@@ -53,3 +57,4 @@
 回环检测：Loop Closing
 
 建图：Mapping
+
