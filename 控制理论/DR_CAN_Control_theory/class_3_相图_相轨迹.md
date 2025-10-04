@@ -30,6 +30,7 @@
 ### 二维系统
 
 对于一个二维系统
+
 $$
 \begin{bmatrix}
 \dot{x}_1 \\
@@ -45,11 +46,14 @@ x_1 \\
 x_2 \\
 \end{bmatrix}
 $$
+
 现在先分析简单一点的情况，令 $b=c=0$ ，有
+
 $$
 \dot{x}_1 = ax_1 \\
 \dot{x}_2 = dx_2 \\
 $$
+
 对于一个二维系统，$\dot{x}_1 = 0,\dot{x}_2 = 0$ 时，对应的 $x_1,x_2$ 为平衡点
 
 易得，上述方程的平衡点为 $x_1 = 0, x_2 = 0$ 
@@ -96,6 +100,7 @@ $$
 ---
 
 现在考虑更一般的形式来的分析平衡点性质，对于一个二维系统
+
 $$
 \begin{bmatrix}
 \dot{x}_1 \\
@@ -111,6 +116,7 @@ x_1 \\
 x_2 \\
 \end{bmatrix}
 $$
+
 可以写成 $\dot x = Ax$ 
 
 令 $x = Py$ ，$P$ 为 $x$ 的特征向量组成的矩阵
@@ -132,6 +138,7 @@ x
 $$
 
 计算矩阵A的特征值
+
 $$
 \begin{aligned}
 \begin{vmatrix}
@@ -156,7 +163,9 @@ $$
 
 \end{aligned}
 $$
+
 计算特征向量
+
 $$
 \begin{aligned}
 \begin{bmatrix}
@@ -203,6 +212,7 @@ v_1 & v_2\\
 
 \end{aligned}
 $$
+
 将 $v_1, v_2$ 分别带入(1) 的 $x$ 中，根据特征向量的性质，有 $\dot x = \lambda_1 v_1， \dot x = \lambda_2 v_2$ ，绘制出流图
 
 ![ec4a112f-bb45-40a4-80be-e0857d79da7b](images/ec4a112f-bb45-40a4-80be-e0857d79da7b.png)
@@ -210,6 +220,7 @@ $$
 这里的箭头理解为，在对应的点 $(x_1, x_2)$ 处的梯度，大小及方向就是对应的 $(\dot x_1, \dot x_2)$ 。由于矩阵的特征向量方向上，矩阵左乘特征向量的结果方向不变，所以此时梯度 $(\dot x_1, \dot x_2)$ 和对应的向量 $(x_1, x_2)$ 方向相同。
 
 现在来分析  $\dot y = \Lambda y$ ：
+
 $$
 \dot y = 
 \Lambda y = 
@@ -220,6 +231,7 @@ $$
 y
 \\
 $$
+
 根据前面推导的简单的二维系统的相图，可知此时 $y$ 的平衡点就是 saddle point (unstable) 
 
 ![4b9912fe-0e1f-41dd-852c-b4892ebdc42f](images/4b9912fe-0e1f-41dd-852c-b4892ebdc42f.png)
@@ -237,6 +249,7 @@ $$
 ---
 
 现在考虑状态转移矩阵更复杂一点的情况
+
 $$
 \dot x =
 \begin{bmatrix}
@@ -245,7 +258,9 @@ $$
 \end{bmatrix} 
 x
 $$
+
 解出来
+
 $$
 \lambda = \pm ai \\
 v_1 =
@@ -259,12 +274,16 @@ v_2 =
 -a_i\\
 \end{bmatrix}
 $$
+
 已知
+
 $$
 \dot y = \Lambda y \\
 x= py
 $$
+
 有
+
 $$
 \dot y =
 \begin{bmatrix}
@@ -273,7 +292,9 @@ ai & 0  \\
 \end{bmatrix} 
 y \\
 $$
+
 根据线性微分方程的解，得
+
 $$
 y_1 = C_1e^{ait}, \,y_2 = C_2e^{-ait} \\
 x = 
@@ -288,25 +309,34 @@ C_2e^{-ait} \\
 x_1 = C_1e^{ait} + C_2e^{-ait} \\
 x_2 = aiC_1e^{ait} - aiC_2e^{-ait} \\
 $$
+
 使用泰勒展开 $e^{ait} = \cos at + i\sin at$ 
+
 $$
 x_1 = C_1( \cos at + i\sin at) + C_2(\cos at - i\sin at)  = (C_1 + C_2)\cos at + (C_1 - C_2)i\sin at\\
 x_2 = aiC_1( \cos at + i\sin at) - aiC_2( \cos at + i\sin at) = (aC_1-aC_2)i\cos at + (-aC_1 + aC_2)\sin at \\
 $$
+
 简化一下常数
+
 $$
 x_1 = B_1\cos at + B_2i\sin at\\
 x_2 = B_3i\cos at + B_4\sin at \\
 $$
+
 取实部部分
+
 $$
 x_1 = B_1\cos at \\
 x_2 = B_4\sin at \\
 $$
+
 所以有
+
 $$
 (\frac{x_1}{B_1})^2 + (\frac{x_2}{B_4})^2 = 1
 $$
+
 这是一个椭圆，取椭圆上与坐标轴相交的一点，便可得椭圆的方向，也就能画出其相图
 
 ![c16c1385-afda-42e0-9398-6db4fa6ab761](images/c16c1385-afda-42e0-9398-6db4fa6ab761.png)
@@ -322,6 +352,7 @@ $$
 ---
 
 现在考虑状态转移矩阵再复杂一点的情况
+
 $$
 \dot x =
 \begin{bmatrix}
@@ -330,10 +361,13 @@ $$
 \end{bmatrix} 
 x
 $$
+
 就不推导了，最后算出来的特征值为
+
 $$
 \lambda = 1 \pm 2i
 $$
+
 对应的相图
 
 ![437b2bcb-d521-4d7c-a32c-c72b83b102ac](images/437b2bcb-d521-4d7c-a32c-c72b83b102ac.png)
@@ -349,9 +383,9 @@ $$
 | $\lambda_1 < 0, \lambda_2 < 0$                               | 聚集     | 稳定 (stable point)                 |
 | $\lambda_1 > 0, \lambda_2 < 0$   or   $\lambda_1 < 0, \lambda_2 > 0$ | 鞍形     | 不稳定 (saddle point)               |
 | $\lambda_1 < 0, \lambda_2 < 0$                               | 发散     | 不稳定 (unstable point)             |
-| $\lambda = a \pm b,\,\,a = 0$                                | 椭圆     | 稳定，但并非渐近稳定 (center point) |
-| $\lambda = a \pm b,\,\,a > 0$                                | 螺旋向外 | 不稳定 (unstable point)             |
-| $\lambda = a \pm b,\,\,a < 0$                                | 螺旋向内 | 稳定 (stable point)                 |
+| $\lambda = a \pm bi,\,\,a = 0$                               | 椭圆     | 稳定，但并非渐近稳定 (center point) |
+| $\lambda = a \pm bi,\,\,a > 0$                               | 螺旋向外 | 不稳定 (unstable point)             |
+| $\lambda = a \pm bi,\,\,a < 0$                               | 螺旋向内 | 稳定 (stable point)                 |
 
 
 

@@ -50,25 +50,35 @@ $\frac 1 T$：采样频率 Sampling Frequency
 ## 系统状态方程的转换
 
 系统状态方程 $\dot{x}(t) = Ax(t)+Bu(t)$ 的解为
+
 $$
 \vec{x}(t) = e^{A(t-t_0)}\vec{x}(t_0)  + \int_{t_0}^t B e^{A(t-\tau)} \vec u(\tau)d\tau \\
 $$
+
 对于一个实时控制器，连续与离散的变换为
+
 $$
 u(t) = u(kT)
 $$
+
 带入得
+
 $$
 x[k+1] =  e^{AT}{x}[k]  + \int_{0}^{T} B e^{AT} d\tau \cdot u[k]\\
 $$
+
 最后写成
+
 $$
 \boxed{
 \vec x[k+1] = F\vec {x}[k]  +G\vec u[k]\\
 }
 $$
+
 其中
+
 $$
 F = e^{AT} \\
-G =  \int_{0}^{T} B e^{AT} d\tau 
+G =  \int_{0}^{T} B e^{AT} d\tau
 $$
+
