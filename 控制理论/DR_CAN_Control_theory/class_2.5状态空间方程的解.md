@@ -130,7 +130,7 @@ $$
    \end{aligned}
 $$
 
-   ---
+---
 
 现在我们来解状态空间方程 $\frac{d\vec{x(t)}}{dt} = A\vec{x(t)} + B \vec u(t) $ 
 
