@@ -86,7 +86,7 @@
 | $A \xleftarrow[g]{f} B$      | `\xleftarrow[g]{f}`     |
 | $x\uparrow\  ,; y\downarrow$ | `\uparrow` `\downarrow` |
 
-示例：`$\lim_{n\to\infty} x_n \xrightarrow{\text{a.s.}} x$`。
+示例：$\lim_{n\to\infty} x_n \xrightarrow{\text{a.s.}} x$。
 
 ------
 
