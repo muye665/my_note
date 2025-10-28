@@ -1,4 +1,4 @@
-## 线性控制器设计 （Linear Controller Design）
+# 线性控制器设计 （Linear Controller Design）
 
 - 开环系统系统（open loop）：$\dot x = Ax$ 
 
@@ -227,4 +227,230 @@ LQR 在下节课讲
 2. 分析无外界输入时，系统的稳定性
 3. 分析系统的可控性
 4. 如果系统可控，设计控制器
+
+
+## 实际应用
+
+考虑一个这样的系统：二维平面上，一个小车上带着一个摆，小车的位移为 $\delta$ ，杆与竖直线的夹角为 $\phi$ ，杆长为$L$ ，球重量为 $m$，杆重量忽略不计
+
+![c66d0898-5ba2-4e84-83d1-9be004263f5e](images/c66d0898-5ba2-4e84-83d1-9be004263f5e.png)
+
+（这里直接将状态转移矩阵写出来，详细的推导在后面）
+$$
+\ddot\phi + \frac 1L\ddot\delta - \frac gL\phi=0
+$$
+写成矩阵：
+$$
+\begin{bmatrix}
+\dot\phi \\ \ddot\phi 
+\end{bmatrix}
+= 
+\begin{bmatrix}
+0 & 1 \\
+\frac gL & 0
+\end{bmatrix}
+\begin{bmatrix}
+\phi \\ \dot\phi 
+\end{bmatrix}
++
+\begin{bmatrix}
+0 \\ -\frac1L
+\end{bmatrix}
+\ddot\delta
+$$
+
+### 1. 分析系统稳定性
+
+$$
+A =
+\begin{bmatrix}
+0 & 1 \\
+\frac gL & 0
+\end{bmatrix}
+$$
+
+计算矩阵 A 的特征值：
+$$
+\begin{aligned}
+\begin{vmatrix}
+\lambda I - A
+\end{vmatrix}
+&=0 \\
+\begin{vmatrix}
+\lambda & -1 \\
+-\frac gL & \lambda
+\end{vmatrix}
+&=0 \\
+\lambda^2 - \frac gL &= 0 \\
+\lambda = \pm\sqrt{\frac gL}
+\end{aligned}
+$$
+
+- 特征值有正的，所有系统不稳定
+
+### 2. 分析系统可控性（参考class5系统可控性）
+
+$$
+\begin{aligned}
+C_o 
+&= 
+\begin{bmatrix}
+B & AB \\
+\end{bmatrix}  \\
+&=
+\begin{bmatrix}
+0 & 0 & -\frac1L\\
+-\frac1L & 0 & 0\\
+\end{bmatrix}  \\
+\end{aligned}
+$$
+
+$$
+Rank(C_o)=2
+$$
+
+- $Rank(C_o) = n$ ，系统可控
+
+### 3. 设计控制器
+
+令 $u = -\begin{bmatrix}k_1&k_2\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}$ 
+
+带入系统中
+$$
+\begin{bmatrix}
+\dot\phi \\ \ddot\phi 
+\end{bmatrix}
+= 
+\begin{bmatrix}
+0 & 1 \\
+\frac{g+k_1}L & \frac{k_2}L
+\end{bmatrix}
+\begin{bmatrix}
+\phi \\ \dot\phi 
+\end{bmatrix}
+$$
+令矩阵特征值都等于 -1
+$$
+\begin{aligned}
+\begin{vmatrix}
+\lambda & -1 \\
+-\frac{g+k_1}L & -\frac{k_2}L+\lambda
+\end{vmatrix}
+&=0 \\
+\lambda^2 - \frac{k_2}L\lambda-\frac{g+k_1}L = 0
+\end{aligned}
+$$
+令 $\lambda_1 = \lambda_2 = -1$
+$$
+-\frac{k_2}L = 2 \\
+-\frac{g+k_1}L = 1 \\
+$$
+求出来：
+$$
+k_1 = -L - g, \;k_2 = -2L
+$$
+ 
+
+
+
+
+### 状态转移矩阵推导
+
+#### 方法一：牛顿第二定律受力分析（视频里的方法，不再赘述）
+
+#### 方法二：拉格朗日方程
+
+计算状态转移矩阵
+
+使用拉格朗日方程对小球分析
+
+根据拉格朗日方程
+$$
+\frac{\partial \mathcal{L}}{\partial q}  
+- \frac{d}{dt}\frac{\partial \mathcal{L}}{\partial \dot q}
+= Q
+$$
+计算拉格朗日量（小车水平面为零势能点）
+$$
+x = L\sin \phi + \delta \\
+y = L\cos \phi \\
+\dot x = L \dot\phi \cos\phi + \dot\delta\\
+\dot y = - L \dot\phi \sin\phi \\
+
+\begin{aligned}
+
+\mathcal{L} &= \frac12 mv^2  - mgL\cos\phi\\
+&= \frac12m(\dot x^2 + \dot y^2) - mgL\cos\phi\\
+&= \frac12m[L^2 \dot \phi^2 + \dot\delta^2+2L\dot\delta \dot\phi\cos\phi]
+ - mgL\cos\phi\\
+&= \frac12mL^2\dot \phi^2 + \frac12m\dot\delta^2 + mL\dot\delta \dot\phi\cos\phi - mgL\cos\phi
+\end{aligned}
+$$
+带入前面的公式
+$$
+\begin{aligned}
+\frac{d}{dt}\frac{\partial \mathcal{L}}{\partial \dot q} -\frac{\partial \mathcal{L}}{\partial q}  
+&= Q \\
+\end{aligned}
+$$
+$q \equiv \phi$ 
+$$
+mL^2\ddot\phi + mL\ddot\delta\cos\phi - mgL\sin\phi= 0
+$$
+
+$q \equiv \delta$ 
+$$
+m\ddot\delta + mL\ddot\phi\cos\phi - mL\dot\phi^2\sin\phi = F
+$$
+将上面两个方程写成矩阵的形式有：
+$$
+\begin{bmatrix}
+mL^2 & mL\cos\phi \\
+mLcos\phi & m
+\end{bmatrix}
+
+\begin{bmatrix}
+\ddot\phi \\ \ddot\delta
+\end{bmatrix}
++
+\begin{bmatrix}
+-mgL\sin\phi \\ -mL\dot\phi^2\sin\phi
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\ F
+\end{bmatrix}
+$$
+我们提出第一行，并且令 $\sin\phi=\phi,\;cos\phi = 1$ 
+$$
+mL^2\ddot\phi + mL\ddot\delta - mgL\phi=0 \\
+\ddot\phi + \frac 1L\ddot\delta - \frac gL\phi=0
+$$
+最终建立系统
+
+- 系统状态：$[\phi, \dot\phi]$ 
+- 系统输入：$\ddot\delta$
+
+$$
+\begin{bmatrix}
+\dot\phi \\ \ddot\phi 
+\end{bmatrix}
+= 
+\begin{bmatrix}
+0 & 1 \\
+\frac gL & 0
+\end{bmatrix}
+\begin{bmatrix}
+\phi \\ \dot\phi 
+\end{bmatrix}
++
+\begin{bmatrix}
+0 \\ -\frac1L
+\end{bmatrix}
+\ddot\delta
+$$
+
+
+
+
 

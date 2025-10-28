@@ -9,7 +9,7 @@
   | $\chi$     | \chi     | $\nu$     | \nu     | $\theta$ | \theta   | $\varrho$ | \varrho |
   | $\delta$   | \delta   | $o$        | o       | $\upsilon$ | \upsilon | $\varsigma$ | \varsigma |
   | $\epsilon$ | \epsilon | $\omega$  | \omega  | $\xi$ | \xi      | $\vartheta$ | \vartheta |
-  | $\eta$     | \eta     | $\phi$  | \phi    | $\zeta$ | \zeta    |     |     |
+  | $\eta$     | \eta     | $\phi$  | \phi    | $\zeta$ | \zeta    | $\partial$ | \partial |
   | $\gamma$   | \gamma   | $\pi$     | \pi     | $\digamma$ | \digamma |  |  |
   | $\iota$    | \iota    | $\psi$    | \psi    | $\varepsilon$ | \varepsilon |  |  |
   | $\kappa$   | \kappa   | $\rho$    | \rho    | $\varkappa$ | \varkappa |  |  |
@@ -63,7 +63,7 @@
 | $\Vert$      | \Vert        | $\equiv$   | \equiv   | $\subsetneqq$ | \subsetneqq |
 | $\vert$      | \vert        | $\neq$     | \neq     | $\supset$     | \supset     |
 | $\infty$     | \infty       | $\sim$     | \sim     | $\supseteq$   | \supseteq   |
-| $\$          |              | $\approx$  | \approx  | $\supseteqq$  | \supseteqq  |
+| $\nabla$     | \nabla       | $\approx$  | \approx  | $\supseteqq$  | \supseteqq  |
 | $\$          |              | $\propto$  | \propto  | $\supsetneqq$ | \supsetneqq |
 | $\$          |              | $\$        |          | $\$           |             |
 | $\$          |              | $\$        |          | $\$           |             |
@@ -74,12 +74,11 @@
 
 ### 箭头（常用于映射、极限、推导）
 
-
-
 | 符号                         | 语法                    |
 | ---------------------------- | ----------------------- |
 | $a\to b$                     | `\to`                   |
 | $a\rightarrow b$             | `\rightarrow`           |
+| $a\Rightarrow b$             | `\Rightarrow`           |
 | $a\longrightarrow b$         | `\longrightarrow`       |
 | $a\mapsto b$                 | `\mapsto`               |
 | $A \xrightarrow{f} B$        | `\xrightarrow{f}`       |
