@@ -172,3 +172,21 @@ $$
 显然 $\lambda_1,\lambda_2$ 同号，都小于 0
 
 平衡点为 $\begin{bmatrix}e \\\delta \\\end{bmatrix} = 0$ ，所以系统是一个**渐进稳定的系统**
+
+# matlab仿真
+
+>老师的源码在matlab2020版本后就用不了了，因为改了个函数的组件，我用2020自己做了个一样的
+>
+>通过网盘分享的文件：x2d.slx 链接: https://pan.baidu.com/s/1V9JSsBE36_SfFVAx9E7GzQ?pwd=dcan 提取码: dcan 复制这段内容后打开百度网盘手机App，操作更方便哦
+
+![2a50c1e8-132b-46e5-a8ac-3c05110e91a5](images/2a50c1e8-132b-46e5-a8ac-3c05110e91a5.png)
+
+![56d8aa7c-18da-4112-9334-e189ad686e9f](images/56d8aa7c-18da-4112-9334-e189ad686e9f.png)
+
+### 结果：
+
+![33a99e0c-c3d5-45dc-8941-28956340b8ee](images/33a99e0c-c3d5-45dc-8941-28956340b8ee.png)
+
+![d6e45ded-8489-437d-87a6-2201484c5235](images/d6e45ded-8489-437d-87a6-2201484c5235.png)
+
+结果显示，$x$ 能很好地跟踪轨迹

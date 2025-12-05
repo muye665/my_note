@@ -172,15 +172,16 @@
    - 范数  Vmatrix
 3. 大括号 cases
 
-| 符号                                                 | 语法    |
-| ---------------------------------------------------- | ------- |
-| $\begin{aligned} 5x&=1 \\ x&=\frac15  \end{aligned}$ | aligned |
-| $\begin{matrix} 1&2\\3&4 \end{matrix}$               | matrix  |
-| $\begin{pmatrix} 1&2\\3&4 \end{pmatrix}$             | pmatrix |
-| $\begin{bmatrix} 1&2\\3&4 \end{bmatrix}$             | bmatrix |
-| $\begin{vmatrix} 1&2\\3&4 \end{vmatrix}$             | vmatrix |
-| $\begin{Vmatrix} 1&2\\3&4 \end{Vmatrix}$             | Vmatrix |
-| $\begin{cases} x=1 \\ y=2 \end{cases}$               | cases   |
+| 符号                                                 | 语法              |
+| ---------------------------------------------------- | ----------------- |
+| $\begin{aligned} 5x&=1 \\ x&=\frac15  \end{aligned}$ | aligned           |
+| $\begin{matrix} 1&2\\3&4 \end{matrix}$               | matrix            |
+| $\begin{pmatrix} 1&2\\3&4 \end{pmatrix}$             | pmatrix           |
+| $\begin{bmatrix} 1&2\\3&4 \end{bmatrix}$             | bmatrix           |
+| $\begin{vmatrix} 1&2\\3&4 \end{vmatrix}$             | vmatrix           |
+| $\begin{Vmatrix} 1&2\\3&4 \end{Vmatrix}$             | Vmatrix           |
+| $\begin{cases} x=1 \\ y=2 \end{cases}$               | cases             |
+| $\left.\begin{align} x=1 \\ y=2 \end{align}\right\}$ | \left.  \right\\} |
 
 矩阵内部的语法是一致的：
 

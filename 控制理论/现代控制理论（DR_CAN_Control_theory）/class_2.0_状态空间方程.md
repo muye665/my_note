@@ -57,7 +57,7 @@ $$
 \end{bmatrix}
 =
 \begin{bmatrix}
-0 & 0\\
+0 & 1\\
 -K/m & -B/m
 \end{bmatrix}
 
