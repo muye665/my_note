@@ -78,3 +78,23 @@ colcon build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G Ninja
 
 
 在 clion 中通过 `compile_commands.json ` 构建自己的 roscpp 项目：https://www.jetbrains.com/zh-cn/help/clion/ros2-tutorial.html#build-pkg
+
+# 3. 限制colcon build的线程数
+
+### a. 限制整个 workspace 构建时最多 4 个任务：
+
+```bash
+colcon build --parallel-workers 4
+```
+
+### b. 限制 CMake（单包内部编译）最大 4 核：
+
+```bash
+colcon build --cmake-args -DCMAKE_BUILD_PARALLEL_LEVEL=4
+```
+
+### c. 同时限制两者：
+
+```bash
+colcon build --parallel-workers 4 --cmake-args -DCMAKE_BUILD_PARALLEL_LEVEL=4
+```

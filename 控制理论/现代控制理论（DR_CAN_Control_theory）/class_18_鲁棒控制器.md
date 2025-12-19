@@ -4,7 +4,13 @@
 $$
 \dot x = f(x) + u
 $$
-已知 $|f(x)| \leq \rho(x);\;\dot e = \dot x_d - \dot x = \dot x_d-f(x) - u$
+已知 
+
+​	$|f(x)| \leq \rho(x)$ 
+
+​	$e = x_d - x$ 
+
+​	$\dot e = \dot x_d - \dot x = \dot x_d-f(x) - u$ 
 
 令 $u = ke +\dot x_d + u_{aux}$ 
 
